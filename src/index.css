@@ -1,0 +1,9 @@
+/* All styling is handled by Tailwind (loaded via CDN in index.html).
+   This file is intentionally minimal. */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
