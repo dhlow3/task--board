@@ -10,7 +10,7 @@ export function useTasks() {
     const { data, error } = await supabase
       .from('tasks')
       .select('*')
-      .order('created_at', { ascending: true })
+      .order('created_at', { ascending: false })
 
     if (error) {
       console.error('fetchTasks error:', error.message)
@@ -46,7 +46,15 @@ export function useTasks() {
 
   // ── Realtime subscription ─────────────────────────────────────────
   useEffect(() => {
-    fetchTasks()
+    supabase
+      .from('tasks')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .then(({ data, error }) => {
+        if (error) console.error('fetchTasks error:', error.message)
+        else setTasks(data)
+        setLoading(false)
+      })
 
     const channel = supabase
       .channel('tasks-changes')
